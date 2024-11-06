@@ -19,7 +19,7 @@ builder.Services.AddIdentity<Usuario,IdentityRole>()
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<CadastrarUsuarioServices>();
+builder.Services.AddScoped<UsuarioServices>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {

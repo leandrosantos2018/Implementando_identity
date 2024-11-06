@@ -5,16 +5,17 @@ using UsuarioApi.Models;
 
 namespace UsuarioApi.Services
 {
-    public class CadastrarUsuarioServices
+    public class UsuarioServices
     {
         private IMapper _mapper;
         private UserManager<Usuario> _UserManager;
-        
+        private SignInManager<Usuario> _signInManager;
 
-        public CadastrarUsuarioServices(IMapper mapper, UserManager<Usuario> userManager)
+        public UsuarioServices(IMapper mapper, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager)
         {
             _mapper = mapper;
             _UserManager = userManager;
+            _signInManager = signInManager;
         }
 
 
@@ -28,6 +29,17 @@ namespace UsuarioApi.Services
             if (!resultado.Succeeded)
             {
                 throw new ApplicationException("Falha ao cadastrar usuário!");
+            }
+        }
+
+        public async Task  Login(LoginUsuarioDto dto )
+        {
+          var resultado = await _signInManager.PasswordSignInAsync(dto.Username, dto.Password, false, false);
+
+            
+            if (!resultado.Succeeded)
+            {
+                throw new ApplicationException("Falha na autenticação");
             }
         }
     }

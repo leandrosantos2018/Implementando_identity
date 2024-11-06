@@ -17,14 +17,14 @@ namespace UsuarioApi.Controllers
         private IMapper _mapper;
         private Contexto _contexto;
         private UserManager<Usuario> _UserManager;
-        private CadastrarUsuarioServices _cadastroService;
+        private UsuarioServices _usuarioService;
 
-        public UsuarioController(IMapper mapper, Contexto contexto, UserManager<Usuario> userManager, CadastrarUsuarioServices cadastrarUsuarioServices)
+        public UsuarioController(IMapper mapper, Contexto contexto, UserManager<Usuario> userManager, UsuarioServices UsuarioServices)
         {
             _mapper = mapper;
             _contexto = contexto;
             _UserManager = userManager;
-            this._cadastroService = cadastrarUsuarioServices;
+            this._usuarioService = UsuarioServices;
         }
 
 
@@ -32,9 +32,17 @@ namespace UsuarioApi.Controllers
         [HttpPost("/Usuario/Cadastrar")]
         public async Task<IActionResult> Cadastrar([FromBody] CreateUsuarioDto usuarioDto)
         {
-            await _cadastroService.CadastrarUsuarioAsync(usuarioDto);
+            await _usuarioService.CadastrarUsuarioAsync(usuarioDto);
             return Ok("Usuário cadastrado!");
 
+        }
+
+
+        [HttpPost("/Usuario/Login")]
+        public async Task<IActionResult> Login([FromBody] LoginUsuarioDto dto)
+        {
+            await _usuarioService.Login(dto);
+            return Ok("Usuario Autenticado");
         }
 
     }
